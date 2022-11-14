@@ -22,7 +22,17 @@
                 'data': form_data,
                 'dataType': 'json',
                 success: function(data){
-                    console.log(data);
+                    output = "";
+                    $("form")[0].reset() // clearing form fields after submitting data
+                    let stu = data.students
+                    for(let i=0;i<stu.length; i++){
+
+                    // inserting the updated data into the table elements afer retriving them in response
+
+                        output += "<tr><td>"+ stu[i].id +"</td><td>"+ stu[i].name +"</td><td>"+ stu[i].email +"</td><td>"+ stu[i].password +"</td><td> <input class='btn btn-sm btn-warning' type='button' data-sid="+ stu[i].id +" value='Edit'><input class='btn btn-sm btn-danger'type='button' data-sid="+ stu[i].id +" value='delete'></td></tr>"
+                    }
+
+                    $("#tbody").html(output)
                 }
             });
 
@@ -30,3 +40,7 @@
 
     });
 </script>
+
+<!-- "<tr><td>"+ stu[i].id +"</td><td>"+ stu[i].name +"</td><td>"+ stu[i].email +"</td><td>"+ stu[i].password +"</td><td> 
+<input class='btn btn-sm btn-warning' type='button' data-sid="+ stu[i].id +" value='Edit'>
+<input class='btn btn-sm btn-danger'type='button' data-sid="+ stu[i].id +" value='delete'></td></tr>" -->
