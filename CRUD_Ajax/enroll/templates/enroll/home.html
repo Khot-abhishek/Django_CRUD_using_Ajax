@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'enroll/css/bootstrap.css' %}">
+    <title>CRUD with Ajax</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center alert alert-danger">CRUD using Ajax</h1>
+        <div class="row">
+            <div class="col-sm-4">
+                <h3 class="text-center alert alert-info">Add-Update Student</h3>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <input class="'btn btn-success" id="btnsave" type="submit" value="Save">
+                </form>
+            </div>
+            <div class="col-sm-7">
+                <h3 class="text-center alert alert-info">Student Information</h3>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <td scope="col">ID</td>
+                            <td scope="col">NAME</td>
+                            <td scope="col">EMAIL</td>
+                            <td scope="col">PASSWORD</td>
+                            <td scope="col">ACTION</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        {% for stu in students %}
+                        
+                        <tr>
+                            <td>{{stu.id}}</td>
+                            <td>{{stu.name}}</td>
+                            <td>{{stu.email}}</td>
+                            <td>{{stu.password}}</td>
+                            <td>
+                                <input class="btn btn-sm btn-warning" type="button" data-sid="{{stu.id}}" value="Edit">
+                                <input class="btn btn-sm btn-danger" type="button" data-sid="{{stu.id}}" value="delete">
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+                            
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'enroll/js/jquery.js' %}"></script>
+    <script src="{% static 'enroll/js/popper.js' %}"></script>
+    <script src="{% static 'enroll/js/bootstrap.js' %}"></script>
+</body>
+</html>
