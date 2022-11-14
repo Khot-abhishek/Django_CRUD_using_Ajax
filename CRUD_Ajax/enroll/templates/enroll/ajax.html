@@ -1,0 +1,32 @@
+<script>
+    $("#btnsave").click(function(){
+        console.log('save button clicked');
+
+        let name = $('#name_id').val();
+        let email = $('#email_id').val();
+        let password = $('#password_id').val();
+        let csrf_token_val = $("input[name=csrfmiddlewaretoken]").val();
+        
+        if(name=='' || email=='' || password==''){
+            alert('please fill all the forms')
+        }else{
+            // console.log(name);
+            // console.log(email);
+            // console.log(password);
+            // console.log(csrf_token_val);
+            
+            form_data ={'name':name, 'email':email, 'password':password, 'csrfmiddlewaretoken':csrf_token_val}
+            $.ajax({
+                'url': "{% url 'save' %}",
+                'method': 'POST',
+                'data': form_data,
+                'dataType': 'json',
+                success: function(data){
+                    console.log(data);
+                }
+            });
+
+        }
+
+    });
+</script>

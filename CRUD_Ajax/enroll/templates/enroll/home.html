@@ -17,7 +17,7 @@
                 <form action="" method="POST">
                     {% csrf_token %}
                     {{form.as_p}}
-                    <input class="'btn btn-success" id="btnsave" type="submit" value="Save">
+                    <input class="'btn btn-success" id="btnsave" type="button" value="Save">
                 </form>
             </div>
             <div class="col-sm-7">
@@ -58,5 +58,6 @@
     <script src="{% static 'enroll/js/jquery.js' %}"></script>
     <script src="{% static 'enroll/js/popper.js' %}"></script>
     <script src="{% static 'enroll/js/bootstrap.js' %}"></script>
+    {% include 'enroll/ajax.html' %}
 </body>
 </html>
