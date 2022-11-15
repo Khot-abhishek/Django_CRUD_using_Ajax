@@ -23,7 +23,7 @@ def save_data(request):
             email = request.POST['email']
             password = request.POST['password']
     # create new record or update existing based on presence of "ID"        
-            if(id == " "):
+            if(id == "" or id==None):
                 student = User(name=name, email=email, password=password)
             else:
                 student = User(id=id, name=name, email=email, password=password)
