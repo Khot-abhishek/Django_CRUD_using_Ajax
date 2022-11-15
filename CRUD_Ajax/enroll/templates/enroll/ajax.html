@@ -1,5 +1,16 @@
 <script>
     var Current_working_ID;
+    // function to display messages after complition of tasks
+    function messages(my_msg){
+        $("#msg").text(my_msg);
+        $("#msg").show();
+
+        setTimeout(function(){   // removes the message after certain time interval
+            $("#msg").hide();
+        }, 2000);
+    };
+
+
     $("#btnsave").click(function(){
         console.log('save button clicked');
 
@@ -25,6 +36,7 @@
                 'dataType': 'json',
                 success: function(data){
                     let output = "";
+                    messages("Form submitted successfully.")
                     
                     
                     let stu = data.students
@@ -36,7 +48,7 @@
                     }
                     
                     $("#tbody").html(output)
-                    $("#stu_id").val(' ');  // clearing id value so new records could be created
+                    $("#stu_id").val('');  // clearing id value so new records could be created
                     $("form")[0].reset() // clearing form fields after submitting data
                 }
             });
@@ -60,6 +72,7 @@
                 if(data['status'] == '1'){
                     console.log('success')
                     $(current_this).closest('tr').fadeOut();
+                    messages('Record Removed successfully.')
 
 
                 }else if(data['status'] == 0){
