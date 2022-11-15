@@ -1,4 +1,5 @@
 <script>
+    var Current_working_ID;
     $("#btnsave").click(function(){
         console.log('save button clicked');
 
@@ -64,6 +65,31 @@
             }
         });
 
+    });
+
+    //ajax call to retrive student data when edit button is clicked and populate the form with it
+    $("tbody").on('click', '.btn-edit', function(){
+        let id = $(this).attr('data-sid');
+        console.log('edit btn clicked: ', id)
+
+        let csrf_token_val = $("input[name=csrfmiddlewaretoken]").val();
+        del_data ={'edit_id':id,'csrfmiddlewaretoken':csrf_token_val};
+
+        $.ajax({
+            'url': "{% url 'edit' %}",
+            'method': 'POST',
+            'data': del_data,
+            'success': function(data){
+                
+                $("#stu_id").val(data.id)  // saving student ID in a hidden field
+                $("#name_id").val(data.name)
+                $("#email_id").val(data.email)
+                $("#password_id").val(data.password)
+                            
+            }
+        });
+
+    
     });
 
 
