@@ -3,6 +3,7 @@
     $("#btnsave").click(function(){
         console.log('save button clicked');
 
+        let stu_id = $('#stu_id').val();
         let name = $('#name_id').val();
         let email = $('#email_id').val();
         let password = $('#password_id').val();
@@ -16,28 +17,32 @@
             // console.log(password);
             // console.log(csrf_token_val);
             
-            form_data ={'name':name, 'email':email, 'password':password, 'csrfmiddlewaretoken':csrf_token_val};
+            form_data ={'stu_id':stu_id, 'name':name, 'email':email, 'password':password, 'csrfmiddlewaretoken':csrf_token_val};
             $.ajax({
                 'url': "{% url 'save' %}",
                 'method': 'POST',
                 'data': form_data,
                 'dataType': 'json',
                 success: function(data){
-                    output = "";
-                    $("form")[0].reset() // clearing form fields after submitting data
+                    let output = "";
+                    
+                    
                     let stu = data.students
                     for(let i=0;i<stu.length; i++){
-
-                    // inserting the updated data into the table elements afer retriving them in response
-
+                        
+                        // inserting the updated data into the table elements afer retriving them in response
+                        
                         output += "<tr><td>"+ stu[i].id +"</td><td>"+ stu[i].name +"</td><td>"+ stu[i].email +"</td><td>"+ stu[i].password +"</td><td> <input class='btn btn-sm btn-warning btn-edit mr-1' type='button' data-sid="+ stu[i].id +" value='Edit'><input class='btn btn-sm btn-del btn-danger ml-1'type='button' data-sid="+ stu[i].id +" value='delete'></td></tr>"
                     }
-
+                    
                     $("#tbody").html(output)
+                    $("#stu_id").val(' ');  // clearing id value so new records could be created
+                    $("form")[0].reset() // clearing form fields after submitting data
                 }
             });
         }
     });
+
 
     // Delete a selected Record through AJAX call
     $("tbody").on('click', '.btn-del', function(){
