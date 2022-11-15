@@ -15,7 +15,7 @@
             // console.log(password);
             // console.log(csrf_token_val);
             
-            form_data ={'name':name, 'email':email, 'password':password, 'csrfmiddlewaretoken':csrf_token_val}
+            form_data ={'name':name, 'email':email, 'password':password, 'csrfmiddlewaretoken':csrf_token_val};
             $.ajax({
                 'url': "{% url 'save' %}",
                 'method': 'POST',
@@ -29,16 +29,44 @@
 
                     // inserting the updated data into the table elements afer retriving them in response
 
-                        output += "<tr><td>"+ stu[i].id +"</td><td>"+ stu[i].name +"</td><td>"+ stu[i].email +"</td><td>"+ stu[i].password +"</td><td> <input class='btn btn-sm btn-warning' type='button' data-sid="+ stu[i].id +" value='Edit'><input class='btn btn-sm btn-danger'type='button' data-sid="+ stu[i].id +" value='delete'></td></tr>"
+                        output += "<tr><td>"+ stu[i].id +"</td><td>"+ stu[i].name +"</td><td>"+ stu[i].email +"</td><td>"+ stu[i].password +"</td><td> <input class='btn btn-sm btn-warning btn-edit ml-1' type='button' data-sid="+ stu[i].id +" value='Edit'><input class='btn btn-sm btn-del btn-danger ml-1'type='button' data-sid="+ stu[i].id +" value='delete'></td></tr>"
                     }
 
                     $("#tbody").html(output)
                 }
             });
-
         }
+    });
+
+    // Delete a selected Record through AJAX call
+    $("tbody").on('click', '.btn-del', function(){
+        let id = $(this).attr('data-sid');
+        console.log('delete btn clicked: ', id)
+
+        let csrf_token_val = $("input[name=csrfmiddlewaretoken]").val();
+        del_data ={'del_id':id,'csrfmiddlewaretoken':csrf_token_val};
+        let current_this = this;
+        $.ajax({
+            'url': "{% url 'delete' %}",
+            'method': 'POST',
+            'data': del_data,
+            'success': function(data){
+                if(data['status'] == '1'){
+                    console.log('success')
+                    $(current_this).closest('tr').fadeOut();
+
+
+                }else if(data['status'] == 0){
+                    console.log('Error Occured')
+                }
+                
+                
+            }
+        });
 
     });
+
+
 </script>
 
 <!-- "<tr><td>"+ stu[i].id +"</td><td>"+ stu[i].name +"</td><td>"+ stu[i].email +"</td><td>"+ stu[i].password +"</td><td> 
