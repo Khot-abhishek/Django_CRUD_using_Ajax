@@ -30,4 +30,12 @@ def save_data(request):
                 'students': list(all_users)
             }
             return JsonResponse(context)
-            
+
+
+def delete_data(request):
+    if request.method == 'POST':
+        id = request.POST.get('del_id')
+        user = User.objects.get(pk=id)
+        user.delete()
+        return JsonResponse({'status':1})
+    return JsonResponse({'status':0})
