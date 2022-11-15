@@ -14,20 +14,33 @@ def home(request):
 def save_data(request):
     if request.method == 'POST':
         form = StudentRegistration(request.POST)
+        
         if form.is_valid():
-            form.save()
-            all_users = User.objects.values()
+            
+            id = request.POST.get('stu_id')
+            print('id: ', id )
+            name = request.POST['name']
+            email = request.POST['email']
+            password = request.POST['password']
+    # create new record or update existing based on presence of "ID"        
+            if(id == " "):
+                student = User(name=name, email=email, password=password)
+            else:
+                student = User(id=id, name=name, email=email, password=password)
+            student.save()
+            
     # queryset objects cannot be json sirealized so it is converted to a list inside context
+            all_users = list( User.objects.values() )   # <-----
             context = {
                 'msg':'form saved successfully',
-                'students': list(all_users)        # <-----
+                'students': all_users        
             }
             return JsonResponse(context, )
         else:
-            all_users = User.objects.values()
+            all_users = list( User.objects.values())
             context = {
                 'msg':'Unable to save Form',
-                'students': list(all_users)
+                'students': all_users
             }
             return JsonResponse(context)
 
